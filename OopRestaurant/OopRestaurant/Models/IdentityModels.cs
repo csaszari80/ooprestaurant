@@ -25,6 +25,12 @@ namespace OopRestaurant.Models
         {
         }
 
+        /// <summary>
+        /// Ez kell ahoz, hogy létrehozza a Categories táblát
+        /// </summary>
+        public DbSet<Category> Categories { get; set; }
+
+
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

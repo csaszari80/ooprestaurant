@@ -138,3 +138,4 @@ E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRes
 E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.pdb
 E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.Migrations.InitialCreate.resources
 E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.csproj.GenerateResource.Cache
+E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.Migrations.add_category_table.resources

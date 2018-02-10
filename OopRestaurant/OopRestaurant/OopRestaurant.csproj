@@ -178,6 +178,10 @@
     <Compile Include="Migrations\201802101454214_InitialCreate.Designer.cs">
       <DependentUpon>201802101454214_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802101613529_add_category_table.cs" />
+    <Compile Include="Migrations\201802101613529_add_category_table.Designer.cs">
+      <DependentUpon>201802101613529_add_category_table.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -257,6 +261,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201802101454214_InitialCreate.resx">
       <DependentUpon>201802101454214_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802101613529_add_category_table.resx">
+      <DependentUpon>201802101613529_add_category_table.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
