@@ -17,12 +17,12 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("OopRestaurant", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("OopRestaurant", "Index", "MenuItems", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Főoldal", "Index", "Home")</li>
-                    <li>@Html.ActionLink("Rólunk", "About", "Home")</li>
+                    <li>@Html.ActionLink("Étlap", "Index", "MenuItems")</li>
+                    <li>@Html.ActionLink("Kategóriák", "Index", "Categories")</li>
                     <li>@Html.ActionLink("Kapcsolat", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
