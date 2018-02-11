@@ -18,7 +18,8 @@ namespace OopRestaurant.Controllers
         // GET: MenuItems
         public ActionResult Index()
         {
-            return View(db.MenuItems.ToList());
+            // az include-ban álló lambda kifejezéssel töltöm be a más táblákból jövő adatokat
+            return View(db.MenuItems.Include(x => x.Category).ToList());
         }
 
         // GET: MenuItems/Details/5

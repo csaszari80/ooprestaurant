@@ -15,6 +15,12 @@ Innentől kezdve, ha módosítunk a modellen akkor egy új migrációs lépés l
 - ki kell adni az "Add-Migration 'migráció elnevezés'" parancsot
 - ki kell adni az "Update-Database parancsot"
 
+## Adatbázis helyének kijelölése
+- Az adatbázis kapcsolatok a web.config connectionstrings szekciójában vannak megadva (több is lehet de alapértelmezetten egy van ez a defaultconnection)
+- Az adatbázis fájlok a github szikronizálásnál nem kerülnek át az adatbázis a localdb-n jön létre automatikusan vagy kézzel egy **update-database** után.
+- Ezt szerkesztve van lehetőség másik adatbázis szerverhez kapcsolódáshoz: [Connection Stringek szerkesztéséhez puska](https://connectionstrings.com)
+
+
 ## Hasznos parancsok
 - **update-database -TargetMigration 0**: adatbázis visszaállítása az összes migráció előtti állapotba
 - **update-database -TargetMigration Migrációnév**: adatbázis megadott migráció utáni állaptra való visszaállítása
