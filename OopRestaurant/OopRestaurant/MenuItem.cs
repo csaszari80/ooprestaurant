@@ -11,6 +11,18 @@ namespace OopRestaurant
     /// </summary>
     public class MenuItem
     {
+        public MenuItem(string name, string description, int price, Category category)
+        {
+            Name = name;
+            Description = description;
+            Price = price;
+            Category = category;
+        }
+        public MenuItem()
+        {
+
+        }
+
         public int Id { get; set; }
 
         public string Name { get; set; }

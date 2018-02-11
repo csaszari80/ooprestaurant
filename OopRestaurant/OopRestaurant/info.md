@@ -20,6 +20,10 @@ Innentől kezdve, ha módosítunk a modellen akkor egy új migrációs lépés l
 - Az adatbázis fájlok a github szikronizálásnál nem kerülnek át az adatbázis a localdb-n jön létre automatikusan vagy kézzel egy **update-database** után.
 - Ezt szerkesztve van lehetőség másik adatbázis szerverhez kapcsolódáshoz: [Connection Stringek szerkesztéséhez puska](https://connectionstrings.com)
 
+## Kezdeti adatfeltöltés:
+- \migrations\configuration.cs a Seed függvény-ben lehet az iniciális adatfeltöltést végrehajtani
+- ez minden **update-database** kiadásakor lefut
+
 
 ## Hasznos parancsok
 - **update-database -TargetMigration 0**: adatbázis visszaállítása az összes migráció előtti állapotba
