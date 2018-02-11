@@ -33,7 +33,7 @@ namespace OopRestaurant.Migrations
                 x => x.Name,
                 new Category( name : "Pizzák"),
                 new Category( name : "Italok"),
-                new Category( name : "Desszettek")
+                new Category( name : "Desszertek")
             );
             context.SaveChanges();
 

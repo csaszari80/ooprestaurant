@@ -72,6 +72,16 @@ namespace OopRestaurant.Controllers
             {
                 return HttpNotFound();
             }
+
+            //Hogy be tudjuk állítani alenyílót, megadjuk az akuális category értékből az azonosítót
+            //Mivel a kategória egy másik táblában van ezért az Entity framework nem tölti be ehhez
+            //be kell tölteni az adatokat onnan is (db.Entry sor)
+            db.Entry(menuItem).Reference(x => x.Category).Load();
+            menuItem.CategoryId = menuItem.Category.Id;
+
+            //A választható kategóriák listájához szükség van egy selectList-re
+            //amelynek konstruktorában lekérjuk a lista elemeit szolgáltató Categories táblát, megadjuk, postban elküldendő értéket tartalmazó mezőt(Id) és amegjelenítendő értéket tartalmazó mezőt(Name)
+            menuItem.AssignableCategories = new SelectList(db.Categories.OrderBy(x=>x.Name).ToList(),"Id","Name");
             return View(menuItem);
         }
 
@@ -80,11 +90,27 @@ namespace OopRestaurant.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Id,Name,Description,Price")] MenuItem menuItem)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,Price,CategoryId")] MenuItem menuItem)  //be kell engedni a lenyíló által kiválasztott CategoryId azonosítót is
         {
             if (ModelState.IsValid)
             {
-                db.Entry(menuItem).State = EntityState.Modified;
+                //megkeressük az ürlapon érkezett CategoryId-hez tartozó kategóriát
+                var category =db.Categories.Find(menuItem.CategoryId);
+
+                //A formról jövő adatokat bemutatjuk az adatbázisnal
+                db.MenuItems.Attach(menuItem);
+                
+                //Az adatbázissal kapcsolatos dolgok eléréséhez kell az entry
+                var entry = db.Entry(menuItem);
+                
+                //az entry-t felhasználva betöltjük a category tábla adatait a menuItem.Category property-be
+                entry.Reference(x => x.Category).Load();
+
+                //majd felülírjuk azzal ami a Form-on jön
+                menuItem.Category = category;
+                entry.State = EntityState.Modified;
+
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
