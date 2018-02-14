@@ -1,5 +1,8 @@
 ﻿# Jegyzetek az étterem alkalmazáshoz
-Segítség  [Asccii grafikákhoz](www.asciidraw.com/#draw)
+- Segítség  [Asccii grafikákhoz](www.asciidraw.com/#draw)
+- bootstrap verzióját packages.conig-ban megnézhetjük
+
+
 
 ## Lenyíló lista több tábla adatainak összefűzéséhez:
 - A modelben kell két mező egy a kiválasztott elem azonosítójához egyet a választható elemek listájának.
@@ -8,7 +11,7 @@ Segítség  [Asccii grafikákhoz](www.asciidraw.com/#draw)
 - A GET Controlleren kitöltjük ezt a két mezőt. 
   - Az első a kiválasztott elemmel együtt jön az adatbázisból (ott már ki van töltve). Fontos, hogy mivel ez egy másik táblával kapcsolt adat ezért azt be kell tölteni.
   - A másodikhoz le kell kérnünk a kapcsolódó tábla tartalmát egy speciális típusba
-- A view-ban ezzel a két paramétert felhasználva megjelenítem a dropdownList-et.
+- A view-ban ezt a két paramétert felhasználva megjelenítem a dropdownList-et.
 - Ahhoz, hogy a view-ból kiválasztott adat feldolgozásra kerüljön szükséges a POST controllert is megdolgozni
   - Az első dolog, hogy egyáltalán átvegye az adatot, mivel a template alpján létrehozott controllereknél bind-olva van, hogy mit vehet át azt ki kell egészíteni.
   - A következő problémát az okozza, hogy: A kategóriával kapcsolatban formról egy int jön és a menuItems táblában is int típusú oszlop van, a menuItem modeljében egy Category típusú adat van ezek viszont a Categories táblában tárolódnak. A controller a menuItem modelljével dolgozik annak módosításait menti el az adatbázisba(viszont csak egy int-et kap és azt is kell kiadnia).
@@ -61,6 +64,30 @@ Innentől kezdve, ha módosítunk a modellen akkor egy új migrációs lépés l
 - **update-database -TargetMigration Migrációnév**: adatbázis megadott migráció utáni állaptra való visszaállítása
 - **update-database -Script**: Egy sql scriptet generál amely a módosításokat tartalmazza (az sql serveren megfuttatva ugyanazt a hatást érjuk el mintha a -script nélkül adtuk volna ki a parancsot)
 
+## A felhasználók azonosítása, jogosultságkezelés:
+- Ajánlott tanfolyam ASP.NET Core, .Net praktikák haladóknak
+- Első lépés azonosítjuk a bejelentkezett és nem bejelntkezett felhasználókat ez a funkciót a template választásakor 
+  bekapcsoltuk Dokumentáció: [ASP.NET Identity](http://www.asp.net/identity)
+- Nem bejelentkezett felhasználók elől elzárhatunk
+  - A View-kban bizonyos kódrészleteket (elemek megjelenítését)
+       ```
+              @if (Request.IsAuthenticated)
+              { ... }
+       ```
+  - Egész controllereket az [Authorize] annotációval(A controller osztályt annotáljuk)
+  - Vagy Action-öket az [Authorize] annotációval(Az ActionResult függvényeket annotáljuk)
+- Jogosultsági szintek kezelése az ASP.NET Identity-ben: Role Based Authorization 
+  (lehet még claim based is de azt most nem tárgyaljuk)
+  - Controller/Action alapú
+  - A felhasználókat csoportokba tudjuk rendezni és csoport alapon tudjuk a jogosultságokat kezelni
+    - Nincs kezelő felülete(lehet identity controllereket írni de az egy másik tanfolyam), a role-okat közvetlenül
+      az adatbázisba kell felvenni,(AspNetRoles tábla) figyelem ID mező helyére guid-értéket vár ezt vagy az sql szerver
+      generálja vagy online generátort is használhatunk. 
+    - A regisztrált felhasználókat az AspNetUsers táblában tárolja (az ID szintén guid)
+    - Az összerendeléseket az ASPNetUserRoles táblába kell felvenni a Userek és a Role-ok ID párjaival
+  - Annotációval(pl: **[Authorize(Roles = "Headwaiter,Admin")]**) tudjuk az egyes Controller/Action-okat hozzárendelni a csoportokhoz
+  - A jogosultságokat cookieban tárolja az ASP.Net ezért, ha módosításkor ki és bejelentkezés után jut érvényre.
+
 
 
 # Az étterem projekt leírása(specifikáció)
@@ -83,3 +110,4 @@ Nem készítünk ilyet mert az MVC template-ek elkészítik nekünk a képernyő
 ## Forgatókönyvek
 ### Érdeklődő eldönti, hogy akar-e nálunk enni.
 Érdeklődő megnézi az étlapot, hogy mit és mennyiért lehet enni
+

@@ -11,6 +11,11 @@ using OopRestaurant.Models;
 
 namespace OopRestaurant.Controllers
 {
+    /// <summary>
+    /// A kategóriák kontrollere
+    /// Az Authorize annotáció arra szolgál, hogy a controllert csak bejelentkezett felhasználók érhetik el
+    /// </summary>
+    [Authorize]
     public class CategoriesController : Controller
     {
         private ApplicationDbContext db = new ApplicationDbContext();

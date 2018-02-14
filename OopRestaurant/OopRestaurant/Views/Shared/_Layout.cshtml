@@ -21,8 +21,13 @@
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
+                                   
                     <li>@Html.ActionLink("Étlap", "Index", "MenuItems")</li>
-                    <li>@Html.ActionLink("Kategóriák", "Index", "Categories")</li>
+                    @*Azt szeretnénk elérni, hogy csak a bejelentkezett felhasználók láthassák kategóriákat*@
+                    @if (Request.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink("Kategóriák", "Index", "Categories")</li>
+                    }
                     <li>@Html.ActionLink("Kapcsolat", "Contact", "Home")</li>
                 </ul>
                 @Html.Partial("_LoginPartial")
