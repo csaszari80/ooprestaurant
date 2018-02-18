@@ -2,6 +2,7 @@
 - Segítség  [Asccii grafikákhoz](www.asciidraw.com/#draw)
 - bootstrap verzióját packages.conig-ban megnézhetjük
 - szövegek (kódok) összehasonlításához használható a kdiff3 ingyenes program hasnálható
+- A bejelentkezési képernyőt az Account Controllerhez tartozó view-kban és az AccountControllerModelsben lehet magyarítani
 
 
 
