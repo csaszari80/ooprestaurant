@@ -29,15 +29,20 @@ namespace OopRestaurant
         public int Id { get; set; }
 
         [Required(ErrorMessage = "Ezt a mezőt kötelező kitölteni!")] //Ez a mező kötelező
+        [Display( Name = "Név")]
         public string Name { get; set; }
 
         [Required] //Ez a mező kötelező
+        [Display(Name = "Leírás")]
+        [DataType(DataType.MultilineText)]
         public string Description { get; set; }
 
         [Range(1,100000)] //Ez egy és 100000 közötti szám lehet
+        [Display(Name = "ár")]
         public int Price { get; set; }
 
         [Required] //Ez a mező kötelező
+        [Display(Name = "Kategória")]
         public Category Category { get; set; }
 
         /// <summary>
