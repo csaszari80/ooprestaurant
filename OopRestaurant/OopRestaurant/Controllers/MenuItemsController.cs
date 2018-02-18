@@ -41,7 +41,11 @@ namespace OopRestaurant.Controllers
         [Authorize(Roles = "Headwaiter,Admin")] //csak a főpincér vagy az admin csoport tagjai használhatják a controlt [lehet [Authorize Users="felhsználók emailcímei", de ezt nem használjuk]
         public ActionResult Create()
         {
-            return View();
+            var menuItem = new MenuItem();
+
+            //A választható kategóriák listájához szükség van egy selectList-re
+            LoadAssignableCategories(menuItem);
+            return View(menuItem);
         }
 
         // POST: MenuItems/Create
@@ -51,16 +55,56 @@ namespace OopRestaurant.Controllers
         [ValidateAntiForgeryToken]
         [Authorize]
         [Authorize(Roles = "Headwaiter,Admin")] //csak a főpincér vagy az admin csoport tagjai használhatják a controlt
-        public ActionResult Create([Bind(Include = "Id,Name,Description,Price")] MenuItem menuItem)
+        public ActionResult Create([Bind(Include = "Id,Name,Description,Price,CategoryId")] MenuItem menuItem)
         {
+            
+
+            //megkeressük az ürlapon érkezett CategoryId-hez tartozó kategóriát
+            var category = db.Categories.Find(menuItem.CategoryId);
+
+            //Ha nem találja meg a kategóriát akkor vissza kell küldeni
+            if (category == null)
+            {
+                LoadAssignableCategories(menuItem);
+                return View(menuItem);
+            }
+
+            //A formról jövő adatokat bemutatjuk az adatbázisnal
+            db.MenuItems.Attach(menuItem);
+
+            //Mivel ez egy újelem lesz ezért erre nincs szükség
+            //var entry = db.Entry(menuItem);
+            //entry.Reference(x => x.Category).Load();
+
+            //majd felülírjuk azzal ami a Form-on jön
+            menuItem.Category = category;
+            
+            // Az adatok validációját töröljük (eddig nem volt valid mivel a category null volt ( a formról csak a csategorID-jön)
+            ModelState.Clear();
+            // Újra validáljuk
+            TryValidateModel(menuItem);
+
+         
+
             if (ModelState.IsValid)
             {
+
                 db.MenuItems.Add(menuItem);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
+            //A választható kategóriák listájához szükség van egy selectList-re ez itt azért kell hogyha nem jó az űrlap akkor is legyen lenyíló
+            LoadAssignableCategories(menuItem);
             return View(menuItem);
+        }
+        /// <summary>
+        /// A paraméterben megadott MenuItem típusú objektum AssignableCategories property-jét tölti fel az adatbázisból lelérdezett értékekkel.
+        /// </summary>
+        /// <param name="menuItem"></param>
+        private void LoadAssignableCategories(MenuItem menuItem)
+        {
+            menuItem.AssignableCategories = new SelectList(db.Categories.OrderBy(x => x.Name).ToList(), "Id", "Name");
         }
 
         // GET: MenuItems/Edit/5
@@ -84,8 +128,7 @@ namespace OopRestaurant.Controllers
             menuItem.CategoryId = menuItem.Category.Id;
 
             //A választható kategóriák listájához szükség van egy selectList-re
-            //amelynek konstruktorában lekérjuk a lista elemeit szolgáltató Categories táblát, megadjuk, postban elküldendő értéket tartalmazó mezőt(Id) és amegjelenítendő értéket tartalmazó mezőt(Name)
-            menuItem.AssignableCategories = new SelectList(db.Categories.OrderBy(x=>x.Name).ToList(),"Id","Name");
+            LoadAssignableCategories(menuItem);
             return View(menuItem);
         }
 
@@ -97,28 +140,43 @@ namespace OopRestaurant.Controllers
         [Authorize]
         public ActionResult Edit([Bind(Include = "Id,Name,Description,Price,CategoryId")] MenuItem menuItem)  //be kell engedni a lenyíló által kiválasztott CategoryId azonosítót is
         {
+            //megkeressük az ürlapon érkezett CategoryId-hez tartozó kategóriát
+            var category = db.Categories.Find(menuItem.CategoryId);
+
+            //Ha nem találja meg a kategóriát akkor vissza kell küldeni
+            if (category == null)
+            {
+                LoadAssignableCategories(menuItem);
+                return View(menuItem);
+            }
+
+            //A formról jövő adatokat bemutatjuk az adatbázisnal
+            db.MenuItems.Attach(menuItem);
+
+            //Az adatbázissal kapcsolatos dolgok eléréséhez kell az entry
+            var entry = db.Entry(menuItem);
+
+            //az entry-t felhasználva betöltjük a category tábla adatait a menuItem.Category property-be
+            entry.Reference(x => x.Category).Load();
+
+            //majd felülírjuk azzal ami a Form-on jön
+            menuItem.Category = category;
+            
+            // Az adatok validációját töröljük (eddig nem volt valid mivel a category null volt ( a formról csak a csategorID-jön)
+            ModelState.Clear();
+            // Újra validáljuk
+            TryValidateModel(menuItem);
+
             if (ModelState.IsValid)
             {
-                //megkeressük az ürlapon érkezett CategoryId-hez tartozó kategóriát
-                var category =db.Categories.Find(menuItem.CategoryId);
-
-                //A formról jövő adatokat bemutatjuk az adatbázisnal
-                db.MenuItems.Attach(menuItem);
                 
-                //Az adatbázissal kapcsolatos dolgok eléréséhez kell az entry
-                var entry = db.Entry(menuItem);
-                
-                //az entry-t felhasználva betöltjük a category tábla adatait a menuItem.Category property-be
-                entry.Reference(x => x.Category).Load();
-
-                //majd felülírjuk azzal ami a Form-on jön
-                menuItem.Category = category;
                 entry.State = EntityState.Modified;
 
 
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
+            LoadAssignableCategories(menuItem);
             return View(menuItem);
         }
 

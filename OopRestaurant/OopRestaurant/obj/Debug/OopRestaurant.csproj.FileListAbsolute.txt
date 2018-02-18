@@ -140,3 +140,5 @@ E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRes
 E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.csproj.GenerateResource.Cache
 E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.Migrations.add_category_table.resources
 E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.Migrations.addmenuItemtable.resources
+E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.Migrations.addrequiredvalidationtoMenuItem.resources
+E:\netacademia\csharp\ooprestaurant\OopRestaurant\OopRestaurant\obj\Debug\OopRestaurant.Migrations.addrequiredvalidationtoMenuItem2.resources

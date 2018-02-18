@@ -5,6 +5,7 @@ using System.Web.Services.Protocols;
 using System.ComponentModel;
 using System.Web.Mvc;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
 
 namespace OopRestaurant
 {
@@ -27,12 +28,16 @@ namespace OopRestaurant
 
         public int Id { get; set; }
 
+        [Required(ErrorMessage = "Ezt a mezőt kötelező kitölteni!")] //Ez a mező kötelező
         public string Name { get; set; }
 
+        [Required] //Ez a mező kötelező
         public string Description { get; set; }
 
+        [Range(1,100000)] //Ez egy és 100000 közötti szám lehet
         public int Price { get; set; }
 
+        [Required] //Ez a mező kötelező
         public Category Category { get; set; }
 
         /// <summary>

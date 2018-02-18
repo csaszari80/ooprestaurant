@@ -1,6 +1,7 @@
 ﻿# Jegyzetek az étterem alkalmazáshoz
 - Segítség  [Asccii grafikákhoz](www.asciidraw.com/#draw)
 - bootstrap verzióját packages.conig-ban megnézhetjük
+- szövegek (kódok) összehasonlításához használható a kdiff3 ingyenes program hasnálható
 
 
 
@@ -88,7 +89,17 @@ Innentől kezdve, ha módosítunk a modellen akkor egy új migrációs lépés l
   - Annotációval(pl: **[Authorize(Roles = "Headwaiter,Admin")]**) tudjuk az egyes Controller/Action-okat hozzárendelni a csoportokhoz
   - A jogosultságokat cookieban tárolja az ASP.Net ezért, ha módosításkor ki és bejelentkezés után jut érvényre.
 
-
+## Saját megjelenítő és szerkesztő HTML template
+A cél: kiemelni az azonos kódokat egy külön állományba és a felhasználás helyén meghivatkozni. Az Editor és a Create 
+view sokban megegyezik(ugyanazokat kell tudnunk módosítani csak egyes feliratok és a gombok actionja tér el.)
+- A templatek a View mappa Shared mappájában vannak ezen belül létre kell hozni egy **EditorTemplates** mappát(a név fontos)
+- Ebben a mappában kell létrehozni egy olyan view-t amelynek a **neve megegyezik az objektum (model) nevével(elsőnek a MenuItem)**
+  - A modelt ki kell választani a template-et nem muszáj a pipák közül a partial viewt- kell kiválasztani, 
+    valamint mivel ez csak html kódlesz ezért nem kell code libraries
+- Az létrehozott partial view-ba áthelyezzük a közös kódot (az eredeti helyéről pl a már módosított editből kivágjuk és beillesztjük)
+- Az így elkészült partial view-t a @Html.EditorForModel()-el tudjuk hivatkozni elnevezés alapján keres úgyhogy a nevek fontosak. 
+  Amennyiben az EditorTemplates mappában nem talál a modelnek megfelelő nevű cshtml-t akkor létrehoz egyet üresen
+- 
 
 # Az étterem projekt leírása(specifikáció)
 ## Képernyőképek
@@ -110,4 +121,6 @@ Nem készítünk ilyet mert az MVC template-ek elkészítik nekünk a képernyő
 ## Forgatókönyvek
 ### Érdeklődő eldönti, hogy akar-e nálunk enni.
 Érdeklődő megnézi az étlapot, hogy mit és mennyiért lehet enni
+
+
 
